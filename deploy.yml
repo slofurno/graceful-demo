@@ -19,18 +19,18 @@ spec:
         ports:
           - containerPort: 80
       - name: graceful-demo
-        image: slofurno/ungraceful-demo:latest
+        image: slofurno/graceful-demo:latest
         ports:
           - containerPort: 1234
-            #readinessProbe:
-            #  httpGet:
-            #    path: /ready
-            #    port: 1234
-            #  periodSeconds: 5
-            #  failureThreshold: 1
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 1234
+          periodSeconds: 5
+          failureThreshold: 1
         env:
           - name: VERSION
-            value: "1"
+            value: "2"
           - name: MAX_SHUTDOWN_TIME
             value: "60"
           - name: SHUTDOWN_GRACE_TIME

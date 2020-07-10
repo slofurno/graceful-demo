@@ -30,7 +30,7 @@ spec:
           failureThreshold: 1
         env:
           - name: VERSION
-            value: "2"
+            value: "3"
           - name: MAX_SHUTDOWN_TIME
             value: "60"
           - name: SHUTDOWN_GRACE_TIME

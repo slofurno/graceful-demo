@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"strconv"
+	//"strconv"
 	"sync"
 	"time"
 
-	"github.com/IdeaEvolver/cutter-pkg/service"
+	//	"github.com/IdeaEvolver/cutter-pkg/service"
 	"github.com/go-chi/chi"
 )
 
@@ -80,36 +80,36 @@ func stream(res http.ResponseWriter, req *http.Request) {
 
 func main() {
 
-	maxShutdown, _ := strconv.ParseInt(os.Getenv("MAX_SHUTDOWN_TIME"), 10, 64)
-	gracePeriod, _ := strconv.ParseInt(os.Getenv("SHUTDOWN_GRACE_TIME"), 10, 64)
+	//maxShutdown, _ := strconv.ParseInt(os.Getenv("MAX_SHUTDOWN_TIME"), 10, 64)
+	//gracePeriod, _ := strconv.ParseInt(os.Getenv("SHUTDOWN_GRACE_TIME"), 10, 64)
 
 	router := chi.NewRouter()
 	router.Method("GET", "/hi", http.HandlerFunc(hi))
 	router.Method("GET", "/", http.HandlerFunc(stream))
 
-	svr := service.GracefulServer(&service.Config{
-		Addr:                ":1234",
-		MaxShutdownTime:     time.Second * time.Duration(maxShutdown),
-		ShutdownGracePeriod: time.Second * time.Duration(gracePeriod),
-	}, router)
+	//svr := service.GracefulServer(&service.Config{
+	//	Addr:                ":1234",
+	//	MaxShutdownTime:     time.Second * time.Duration(maxShutdown),
+	//	ShutdownGracePeriod: time.Second * time.Duration(gracePeriod),
+	//}, router)
 
-	svr.RegisterOnShutdown(func() {
-		mu.Lock()
-		shutdownCalled = true
-		shutdownStarted = time.Now()
-		mu.Unlock()
-	})
+	//svr.RegisterOnShutdown(func() {
+	//	mu.Lock()
+	//	shutdownCalled = true
+	//	shutdownStarted = time.Now()
+	//	mu.Unlock()
+	//})
 
-	svr.RegisterOnReady(func() {
-		fmt.Println("GOT TERM")
-		mu.Lock()
-		termCalled = true
-		termStarted = time.Now()
-		mu.Unlock()
-	})
+	//svr.RegisterOnReady(func() {
+	//	fmt.Println("GOT TERM")
+	//	mu.Lock()
+	//	termCalled = true
+	//	termStarted = time.Now()
+	//	mu.Unlock()
+	//})
 
-	//http.ListenAndServe(":1234", router)
+	http.ListenAndServe(":1234", router)
 
-	svr.ListenAndServe()
+	//svr.ListenAndServe()
 
 }
